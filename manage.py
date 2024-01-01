@@ -7,6 +7,18 @@ def header():
     csv_writer.writerow(fields)
     csv_file.close()
 
+# writes the header only if the file is empty(does not have fieldnames to begin with)
+def write_header():
+    csv_file = open("library.csv", "r")
+    csv_reader = csv.reader(csv_file)
+    i = 0 # track if csv_reader is empty
+    for line in csv_reader:
+        i += 1
+        csv_file.close()
+        break
+    if i == 0:
+        header()
+
 
 def add_record():
     print("Current Operation : Add Record")
@@ -42,7 +54,7 @@ def display_menu():
             6. Quit\n''')
 
 
-header()
+write_header()
 display_menu()
 
 command = 0
