@@ -3,7 +3,7 @@ import os
 
 def header():
     csv_file = open("library.csv", "w")
-    fields = ['Book Id', 'Book Title', 'Book Price']
+    fields = ['Book Id', 'Book Title', 'Author', 'Book Price']
     csv_writer = csv.writer(csv_file)
     csv_writer.writerow(fields)
     csv_file.close()
@@ -28,8 +28,9 @@ def add_record():
     csv_writer = csv.writer(csv_file)
     book_id = input("Enter Book-Id :")
     book_title = input("Enter Book Title :")
+    book_author = input("Enter Book Author :")
     book_price = input("Enter Book Price :")
-    record = [book_id, book_title, book_price]
+    record = [book_id, book_title, book_author, book_price]
     csv_writer.writerow(record)
     print("Record added successfully!\n")
     csv_file.close()
@@ -52,13 +53,14 @@ def update_record():
             print("\nUpdating...")
             book_title = input("Enter new Book Title : ")
             book_price = input("Enter new Book Price : ")
+            book_author = input("Enter Book Author")
             new_book_id = input("Enter new Book Id : ")
-            data = [new_book_id, book_title, book_price]
+            data = [new_book_id, book_title, book_author, book_price]
             temp_writer.writerow(data)
             print("The updated record is : ")
-            print("Id".ljust(20), "Title".ljust(40), "Price")
+            print("Id".ljust(20), "Title".ljust(40), "Author.".ljust(30),"Price")
             print("="*80)
-            print(data[0].ljust(20), data[1].ljust(40), data[2])
+            print(data[0].ljust(20), data[1].ljust(40), data[2].ljust(30), data[3])
         else:
             temp_writer.writerow(line)
     csv_file.close()
@@ -78,9 +80,9 @@ def delete_record():
     for line in csv_reader:
         if line[0] == book_id:
             print("\nSelected Record :")
-            print("Id".ljust(20), "Title".ljust(40), "Price")
+            print("Id".ljust(20), "Title".ljust(40), "Author".ljust(30), "Price")
             print("="*80)
-            print(line[0].ljust(20), line[1].ljust(40), line[2])
+            print(line[0].ljust(20), line[1].ljust(40), line[2].ljust(30), line[3])
             print("\nDeleting...")
             print("Record deleted successfully.")
         else:
@@ -100,10 +102,10 @@ def search_record():
     found = False
     for line in csv_reader:
         if line[0] == book_id:
-            print("\nFound Record :")
-            print("Id".ljust(20), "Title".ljust(40), "Price")
-            print("="*80)
-            print(line[0].ljust(20), line[1].ljust(40), line[2])
+            print("\nRecord Found:")
+            print("Id".ljust(20), "Title".ljust(40), "Author".ljust(30), "Price")
+            print("="*100)
+            print(line[0].ljust(20), line[1].ljust(40), line[2].ljust(30), line[3])
             found = True
     if found == False:
         print("\nNo record found❌")
@@ -115,10 +117,10 @@ def display_records():
     csv_file = open("library.csv", "r", newline='\r\n') #newline='\r\n' removes empty line
     csv_reader = csv.reader(csv_file)
     next(csv_reader)
-    print("Id".ljust(20), "Title".ljust(40), "Price")
-    print("="*80)
+    print("Id".ljust(20), "Title".ljust(40), "Author".ljust(30), "Price")
+    print("="*100)
     for line in csv_reader:
-        print(line[0].ljust(20), line[1].ljust(40), line[2])
+        print(line[0].ljust(20), line[1].ljust(40), line[2].ljust(30), line[3])
 
 
 def display_menu():
@@ -141,9 +143,11 @@ display_menu()
 command = 0
 
 while command != 6:
-    command = input("\n>>>")
+    command = input("\nEnter 1-6(0 for help)>>>")
     print("\n")
-    if command == '1':
+    if command == '0':
+        display_menu()
+    elif command == '1':
         add_record()
     elif command == '2':
         update_record()
@@ -152,9 +156,10 @@ while command != 6:
     elif command == '4':
         search_record()
     elif command == '5':
+        os.system('cls')
         display_records()
     elif command == '6':
         print("Library Exited Successfully.\n")
-        print("Thank You. Please  Visit Again🙏\n\n")
+        print("Thank You. Please Visit Again🙏\n\n")
     else:
         print("Invalid Input!❌\n")
